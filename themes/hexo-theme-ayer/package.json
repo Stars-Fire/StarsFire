@@ -1,0 +1,65 @@
+{
+  "_from": "hexo-theme-ayer",
+  "_id": "hexo-theme-ayer@1.9.7-0",
+  "_inBundle": false,
+  "_integrity": "sha512-E25b6PufcYILxIkKd1W4+N3LMpVlVsNEvHCoxeBs5E2bjqF2M7yI1PPKFCf9/rMuwsMyRxRc3icbBt9tMb+Rfg==",
+  "_location": "/hexo-theme-ayer",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "hexo-theme-ayer",
+    "name": "hexo-theme-ayer",
+    "escapedName": "hexo-theme-ayer",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://mirrors.huaweicloud.com/repository/npm/hexo-theme-ayer/-/hexo-theme-ayer-1.9.7-0.tgz",
+  "_shasum": "6d9a7d8fa9cba5ea2a2f0c884caa3d9a79f0340f",
+  "_spec": "hexo-theme-ayer",
+  "_where": "/media/seewo/dfdf7892-13ab-4dea-966b-94c1f6b1de08/code/starsfire.top/hexo",
+  "author": {
+    "name": "Shen-Yu",
+    "email": "shenyu@hotmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/Shen-Yu/hexo-theme-ayer/issues",
+    "email": "shenyu@hotmail.com"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "a clean and elegant theme for hexo.",
+  "devDependencies": {
+    "autoprefixer": "^9.8.6",
+    "rollup": "^2.50.2",
+    "rollup-plugin-styles": "^3.14.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "stylint": "^2.0.0"
+  },
+  "homepage": "https://shen-yu.gitee.io/",
+  "keywords": [
+    "hexo",
+    "theme",
+    "blog",
+    "ayer"
+  ],
+  "license": "SATA",
+  "name": "hexo-theme-ayer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shen-Yu/hexo-theme-ayer.git"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "postinstall": "node ./move_config.js",
+    "test": "stylint source-src/css/style.styl -c .stylintrc"
+  },
+  "source": "source-src/main.js",
+  "version": "1.9.7-0"
+}
