@@ -4,20 +4,22 @@
 
 # Site
 title: 甬六·官网
-subtitle: ''
-description: ''
-keywords:
+subtitle: '星火'
+description: '中国浙江省宁波市镇海蛟川书院2023级甬江校区6班的官网'
+keywords: 镇海,蛟川,蛟川书院,甬江校区,甬江,甬六,官网,2023,宁波市镇海蛟川书院,Y202306,,202306
 author: TNTXZ
-language: zh-CN
+language: 
+- zh-CN
+- en
 timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+url: https://www.starsfire.top/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_index: false # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
 # Directory

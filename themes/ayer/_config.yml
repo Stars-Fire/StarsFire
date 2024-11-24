@@ -3,7 +3,7 @@ menu:
   主页: /
   《星火》: https://news.starsfire.top
   友链: /friends
-  关于: /2019/about
+  关于: /about
 
 # 站点次标题和打字动效
 # https://github.com/mattboldt/typed.js
@@ -35,7 +35,7 @@ progressBar: true
 # 告示板模块
 broadcast:
   enable: true # true开启，false关闭
-  type: 1 # 1：自定义输入，2：一言api(https://hitokoto.cn/)
+  type: 2 # 1：自定义输入，2：一言api(https://hitokoto.cn/)
   text: 卖 # type为1时有效
 
 # 文章配置
@@ -94,7 +94,7 @@ search: true
 
 # RSS订阅(先安装hexo-generator-feed插件，再去博客根目录config进行配置)
 # 不想显示可以直接留空
-rss: /atom.xml
+rss: 
 
 # 是否启用黑夜模式开关
 darkmode: true
