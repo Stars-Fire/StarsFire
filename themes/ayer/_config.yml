@@ -87,11 +87,11 @@ weixin: /images/wechat.jpg
 
 # 版权声明
 # 版权声明type设定：0-关闭版权声明； 1-文章对应的md文件里有copyright: true属性，才有版权声明； 2-所有文章均有版权声明
-copyright_type: 2
+copyright_type: 0
 
 # 是否启用搜索
 # 需要安装hexo-generator-searchdb(https://github.com/theme-next/hexo-generator-searchdb)
-search: true
+search: false
 
 # RSS订阅(先安装hexo-generator-feed插件，再去博客根目录config进行配置)
 # 不想显示可以直接留空
@@ -101,7 +101,7 @@ rss:
 darkmode: true
 
 # 动态背景效果: 0-关闭，1-动态线条(跟随鼠标)
-canvas_bg: 0
+canvas_bg: 1
 
 # 自定义鼠标样式，直接替换/images/mouse.cur文件
 mouse:
@@ -126,7 +126,7 @@ github:
 music:
   enable: true
   # 播放器尺寸类型(1：小尺寸、2：大尺寸)
-  type: 1
+  type: 2
   id: 4010201 # 网易云分享的音乐ID(更换音乐请更改此配置项)
   autoPlay: true # 是否开启自动播放
 
