@@ -2,12 +2,12 @@
 menu:
   主页: /
   《星火》: https://news.starsfire.top
+  论坛: https://bbs.starsfire.top
   友链: /friends
   视频: /video
   工具: /tools
-  在线MC（不支持多人）: /webmc
+  在线MC（多人×）: /webmc
   奇妙的东西: /dy
-  关于: /about
 
 # 站点次标题和打字动效
 # https://github.com/mattboldt/typed.js
