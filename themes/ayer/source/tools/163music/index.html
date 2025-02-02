@@ -1,1 +1,8 @@
-<iframe src="https://api.toubiec.cn/wyapi.html"></iframe>
+<iframe id="frame" src="https://api.toubiec.cn/wyapi.html"></iframe>
+<script>
+window.onload = function() {
+var iframe = document.getElementById("frame");
+iframe.width = iframe.contentWindow.document.body.scrollWidth;
+iframe.height = iframe.contentWindow.document.body.scrollHeight;
+}
+</script>
