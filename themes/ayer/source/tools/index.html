@@ -1,2 +1,175 @@
-<a href="https://www.starsfire.top/tools/m3u8-downloader/index.html">流媒体下载</a>
-<a href="https://www.starsfire.top/tools/163music/index.html">网易云音乐下载</a>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实用工具 - StarsFire</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .tool-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .tool-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .tool-card p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .tool-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .tool-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .tool-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="https://www.starsfire.top/" class="back-btn">← 返回主页</a>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ 实用工具</h1>
+            <p>精选优质在线工具，让你的工作更高效</p>
+        </div>
+        
+        <div class="tools-grid">
+            <a href="https://www.starsfire.top/tools/m3u8-downloader/index.html" class="tool-card">
+                <div class="tool-icon">📹</div>
+                <h3>流媒体下载器</h3>
+                <p>强大的M3U8视频下载工具，支持多种视频格式，下载速度快，操作简单。</p>
+                <div class="tool-btn">立即使用</div>
+            </a>
+            
+            <a href="https://www.kanxizai.cn/163_music/" class="tool-card">
+                <div class="tool-icon">🎵</div>
+                <h3>网易云音乐下载</h3>
+                <p>无损音质音乐下载，支持高音质播放列表，让音乐陪伴你的每一天。</p>
+                <div class="tool-btn">立即使用</div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
