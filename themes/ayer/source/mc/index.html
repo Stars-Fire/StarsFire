@@ -6,64 +6,215 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天启|星火</title>
     <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            color: #333;
         }
+        
+        /* 主容器 */
         .container {
             text-align: center;
-            background-color: white;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 450px;
+            width: 90%;
+            transition: all 0.3s ease;
+        }
+        
+        .container:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        /* 标题样式 */
+        h1 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+        
+        /* 服务器地址区域 */
+        .server-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
         }
+        
+        .server-info b {
+            font-size: 1.2rem;
+        }
+        
+        /* Q群信息 */
+        .q-group {
+            margin: 15px 0;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* 状态显示 */
         .status {
-            font-size: 24px;
-            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 20px 0;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
+        
         .online {
-            color: green;
+            color: #10b981;
+            background-color: rgba(16, 185, 129, 0.1);
         }
+        
         .offline {
-            color: red;
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.1);
+        }
+        
+        /* MOTD区域 */
+        .motd-section {
+            margin-top: 25px;
+        }
+        
+        .motd-title {
+            color: #4a5568;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        #motd {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        #motd:hover {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .status {
+                font-size: 1.2rem;
+            }
+            
+            .server-info b {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- <h1>MC服务器状态监控</h1> -->
-        <center>服务器地址<br>
-        <b>mc.starsfire.top</b><br>
-        没有端口</center><br>
-        <b>Q群: 203110978</b>
-        <!-- <div class="status" id="status">正在检查...</div> -->
+        <div class="server-info">
+            服务器地址<br>
+            <b>mc.starsfire.top</b><br>
+            没有端口
+        </div>
+        <div class="q-group">
+            Q群: <b>203110978</b>
+        </div>
+        <div class="status" id="status">正在检查...</div>
+        <div class="motd-section">
+            <div class="motd-title">MOTD</div>
+            <div id="motd"></div>
+        </div>
     </div>
     <script>
         async function checkServerStatus() {
-            const url = 'https://api.mcstatus.io/v2/status/java/mc.starsfire.top';
+            const url = 'https://uapis.cn/api/v1/game/minecraft/serverstatus?server=mc.starsfire.top';
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 const statusElement = document.getElementById('status');
-                if (data.online) {
-                    statusElement.textContent = '服务器在线';
-                    statusElement.classList.add('online');
+                const motdElement = document.getElementById('motd');
+                
+                if (data.code === 200 && data.online) {
+                    statusElement.textContent = `服务器在线`;
+                    statusElement.className = 'status online';
+                    
+                    // 显示MOTD
+                    if (data.motd_html) {
+                        motdElement.innerHTML = data.motd_html;
+                    } else if (data.motd_clean) {
+                        motdElement.textContent = data.motd_clean;
+                    } else {
+                        motdElement.textContent = '暂无服务器消息';
+                    }
                 } else {
                     statusElement.textContent = '服务器离线';
-                    statusElement.classList.add('offline');
+                    statusElement.className = 'status offline';
+                    motdElement.textContent = '';
                 }
             } catch (error) {
                 console.error('Error fetching server status:', error);
-                document.getElementById('status').textContent = '无法获取服务器状态';
+                const statusElement = document.getElementById('status');
+                const motdElement = document.getElementById('motd');
+                statusElement.textContent = '无法获取服务器状态';
+                statusElement.className = 'status offline';
+                motdElement.textContent = '';
             }
         }
         // 初始加载时检查服务器状态
         window.onload = checkServerStatus;
+        // 每30秒自动更新一次状态
+        setInterval(checkServerStatus, 30000);
     </script>
 </body>
 </html>
