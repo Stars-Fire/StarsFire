@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JustHTMLs - 开源 HTML 工具集</title>
+    <meta name="description" content="JustHTMLs 是一个开源的 HTML 工具集平台，汇集各种轻量级的在线工具，无需安装，即开即用。">
+    <link rel="canonical" href="https://www.htmls.dev/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.htmls.dev/">
+    <meta property="og:title" content="JustHTMLs - 开源 HTML 工具集">
+    <meta property="og:description" content="JustHTMLs 是一个开源的 HTML 工具集平台，汇集各种轻量级的在线工具，无需安装，即开即用。">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.htmls.dev/">
+    <meta property="twitter:title" content="JustHTMLs - 开源 HTML 工具集">
+    <meta property="twitter:description" content="JustHTMLs 是一个开源的 HTML 工具集平台，汇集各种轻量级的在线工具，无需安装，即开即用。">
+    
+    <link rel="icon" href="favicon.svg">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "JustHTMLs",
+      "url": "https://www.htmls.dev",
+      "description": "开源 HTML 工具集 - 轻量、隐私、无需安装",
+      "inLanguage": "zh-CN",
+      "publisher": {
+        "@type": "Organization",
+        "name": "JustHTMLs",
+        "url": "https://www.htmls.dev",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://www.htmls.dev/favicon.svg"
+        },
+        "sameAs": [
+          "https://github.com/justhtmls/html-tools"
+        ]
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.htmls.dev/?search={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "JustHTMLs",
+      "url": "https://www.htmls.dev",
+      "logo": "https://www.htmls.dev/favicon.svg",
+      "description": "开源 HTML 工具集平台，汇集各种轻量级的在线工具",
+      "sameAs": [
+        "https://github.com/justhtmls/html-tools"
+      ]
+    }
+    </script>
+    
+    <link rel="stylesheet" href="assets/vendor/fontawesome/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --bg-hover: #334155;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-hover: #e2e8f0;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-tagline {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--bg-hover);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        /* Hero */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* Search & Filter */
+        .search-section {
+            padding: 30px 0;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .sort-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-muted);
+        }
+
+        .sort-select {
+            background: transparent;
+            border: none;
+            color: var(--text);
+            font-size: 14px;
+            padding: 12px 4px 12px 0;
+            cursor: pointer;
+        }
+
+        .sort-select:focus {
+            outline: none;
+        }
+
+        .search-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .search-shortcut {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            font-size: 11px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .search-shortcut kbd {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-family: monospace;
+            font-size: 11px;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .category-tab {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .category-tab:hover {
+            background: var(--bg-hover);
+        }
+
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            color: white;
+        }
+
+        /* Tools Grid */
+        .tools-section {
+            padding: 30px 0 70px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .tools-count {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .tool-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .tool-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tool-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .tool-category {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tool-updated {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tool-updated i {
+            font-size: 12px;
+        }
+
+        .tool-description {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .tool-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tool-clicks {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+        }
+
+        .tool-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-clicks span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tool-tag {
+            font-size: 11px;
+            padding: 4px 8px;
+            background: var(--bg-hover);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        .tool-arrow {
+            color: var(--primary);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .tool-card:hover .tool-arrow {
+            opacity: 1;
+        }
+
+        /* Featured Badge */
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            z-index: 5;
+        }
+
+        .tool-card {
+            position: relative;
+        }
+
+        .tool-card.favorite {
+            border-color: #fbbf24;
+            box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.3);
+        }
+
+        .tool-card .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .tool-card:hover .favorite-btn {
+            opacity: 1;
+        }
+
+        .tool-card .favorite-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+        }
+
+        .tool-card .favorite-btn.active {
+            opacity: 1;
+            background: rgba(251, 191, 36, 0.2);
+            border-color: #fbbf24;
+            color: #fbbf24;
+        }
+
+        .tool-card .favorite-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .favorites-section {
+            margin-bottom: 30px;
+        }
+
+        .favorites-section:empty {
+            display: none;
+        }
+
+        .favorites-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-section p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="./" class="logo">
+                    <div class="logo-icon">⚡</div>
+                    <div>
+                        <div class="logo-text">JustHTMLs</div>
+                        <div class="logo-tagline">开源 HTML 工具集</div>
+                    </div>
+                </a>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="theme-toggle" title="切换主题">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <a href="https://github.com/justhtmls/html-tools/issues/new?template=feedback.md" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-comment-dots"></i> 问题反馈
+                    </a>
+                    <a href="tools-rank.html" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i> 工具排行
+                    </a>
+                    <a href="https://github.com/justhtmls/html-tools/issues/new?template=tool-request.md" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-lightbulb"></i> 提交需求
+                    </a>
+                    <a href="https://github.com/justhtmls/html-tools" target="_blank" class="btn btn-secondary">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <a href="https://github.com/justhtmls/html-tools/issues/new?template=tool-submission.md" target="_blank" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> 贡献工具
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>轻量级 HTML 工具集合</h1>
+                <p>所有工具均为单文件 HTML，无需安装，打开即用。保护隐私，数据本地处理。</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="tools-count">100</div>
+                        <div class="stat-label">工具数量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="categories-count">5</div>
+                        <div class="stat-label">分类数量</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="home-day-count">--/--</div>
+                        <div class="stat-label">今日 PV/UV</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="home-total-count">--/--</div>
+                        <div class="stat-label">总 PV/UV</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">开源免费</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="search-section">
+            <div class="container">
+                <div class="search-box">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-input" id="search-input" placeholder="搜索工具名称、描述或标签...">
+                        <div class="search-shortcut">
+                            <kbd>Ctrl</kbd><kbd>K</kbd>
+                        </div>
+                    </div>
+                    <div class="sort-wrapper">
+                        <i class="far fa-clock"></i>
+                        <select class="sort-select" id="sort-select">
+                            <option value="updated-desc">更新时间：新 → 旧</option>
+                            <option value="updated-asc">更新时间：旧 → 新</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="category-tabs" id="category-tabs">
+                    <button class="category-tab active" data-category="all">
+                        <i class="fas fa-th-large"></i> 全部
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="tools-section">
+            <div class="container">
+                <div class="favorites-section" id="favorites-section"></div>
+                <div class="section-header">
+                    <h2 class="section-title">工具列表</h2>
+                    <span class="tools-count" id="tools-count-label">加载中...</span>
+                </div>
+                <div class="tools-grid" id="tools-grid">
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> 加载工具列表...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container" style="padding: 60px 20px;">
+            <div style="background: linear-gradient(135deg, var(--bg-card), var(--bg-hover)); border-radius: 20px; padding: 40px; text-align: center; border: 1px solid var(--border);">
+                <h2 style="font-size: 28px; margin-bottom: 16px;">🚀 贡献你的工具</h2>
+                <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 24px;">
+                    JustHTMLs 欢迎社区贡献！创建一个新的 HTML 工具，通过 GitHub Issues 提交，让我们一起构建最完整的工具集合。
+                </p>
+                <a href="https://github.com/justhtmls/html-tools/issues/new?template=tool-submission.md" target="_blank" class="btn btn-primary" style="font-size: 16px; padding: 12px 24px;">
+                    <i class="fas fa-plus"></i> 提交新工具
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于 JustHTMLs</h3>
+                    <p>JustHTMLs 是一个开源的 HTML 工具集平台，所有工具均为单文件 HTML，无需构建步骤，可直接在浏览器中运行。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/justhtmls" target="_blank"><i class="fab fa-github"></i> GitHub 组织</a></li>
+                        <li><a href="tools-rank.html"><i class="fas fa-chart-line"></i> 工具排行</a></li>
+                        <li><a href="https://github.com/justhtmls/html-tools" target="_blank"><i class="fas fa-globe"></i> 网站仓库</a></li>
+                        <li><a href="https://github.com/justhtmls/html-tools/issues" target="_blank"><i class="fas fa-bug"></i> 报告问题</a></li>
+                        <li><a href="https://github.com/justhtmls/html-tools/blob/main/CONTRIBUTING.md" target="_blank">贡献指南</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>设计理念</h3>
+                    <ul class="footer-links">
+                        <li><a href="reference.html">设计文档</a></li>
+                        <li>单文件 HTML，内联 CSS/JS</li>
+                        <li>无需构建，复制即用</li>
+                        <li>数据本地处理，保护隐私</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 JustHTMLs. 基于 MIT 许可证开源。</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let toolsData = null;
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let sortOption = 'updated-desc';
+        let favorites = JSON.parse(localStorage.getItem('justhtmls-favorites') || '[]');
+        let currentTheme = localStorage.getItem('justhtmls-theme') || 'dark';
+
+        async function loadTools() {
+            try {
+                const response = await fetch('index.json');
+                const data = await response.json();
+                toolsData = data;
+                renderCategories();
+                renderTools();
+                updateStats();
+                return Promise.resolve();
+            } catch (error) {
+                console.error('Failed to load tools:', error);
+                document.getElementById('tools-grid').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <p>加载工具列表失败，请刷新页面重试。</p>
+                    </div>
+                `;
+                return Promise.reject(error);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('tools-count').textContent = toolsData.tools.length;
+            document.getElementById('categories-count').textContent = toolsData.categories.length;
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('category-tabs');
+            container.innerHTML = `
+                <button class="category-tab ${currentCategory === 'all' ? 'active' : ''}" data-category="all">
+                    <i class="fas fa-th-large"></i> 全部
+                </button>
+            `;
+            const allButton = container.querySelector('[data-category="all"]');
+            allButton.addEventListener('click', () => selectCategory('all'));
+
+            toolsData.categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `category-tab ${currentCategory === cat.id ? 'active' : ''}`;
+                btn.dataset.category = cat.id;
+                btn.innerHTML = `${cat.icon} ${cat.name}`;
+                btn.addEventListener('click', () => selectCategory(cat.id));
+                container.appendChild(btn);
+            });
+        }
+
+        function selectCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.category === category);
+            });
+            updateURL();
+            renderTools();
+        }
+
+        function updateURL() {
+            const params = new URLSearchParams();
+            if (searchQuery) params.set('search', searchQuery);
+            if (currentCategory !== 'all') params.set('category', currentCategory);
+            if (sortOption !== 'updated-desc') params.set('sort', sortOption);
+            const newURL = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+            window.history.replaceState({}, '', newURL);
+        }
+
+        function loadURLState() {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('search')) {
+                searchQuery = params.get('search').toLowerCase();
+                document.getElementById('search-input').value = params.get('search');
+            }
+            if (params.has('category')) {
+                currentCategory = params.get('category');
+            }
+            if (params.has('sort')) {
+                sortOption = params.get('sort');
+                document.getElementById('sort-select').value = sortOption;
+            }
+        }
+
+        function filterTools() {
+            const filtered = toolsData.tools.filter(tool => {
+                const matchesCategory = currentCategory === 'all' || tool.category === currentCategory;
+                const matchesSearch = !searchQuery ||
+                    tool.name.toLowerCase().includes(searchQuery) ||
+                    tool.description.toLowerCase().includes(searchQuery) ||
+                    tool.tags.some(tag => tag.toLowerCase().includes(searchQuery));
+                return matchesCategory && matchesSearch;
+            });
+            const withTimestamp = (tool) => new Date(tool.updatedAt || tool.createdAt || 0).getTime();
+            if (sortOption === 'updated-asc') {
+                return filtered.sort((a, b) => withTimestamp(a) - withTimestamp(b));
+            }
+            return filtered.sort((a, b) => withTimestamp(b) - withTimestamp(a));
+        }
+
+        function toggleFavorite(toolId, event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const index = favorites.indexOf(toolId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(toolId);
+            }
+            localStorage.setItem('justhtmls-favorites', JSON.stringify(favorites));
+            renderTools();
+            renderFavorites();
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favorites-section');
+            if (!favorites.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            const favoriteTools = toolsData.tools.filter(tool => favorites.includes(tool.id));
+            if (!favoriteTools.length) {
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="favorites-title">
+                    <i class="fas fa-star" style="color: #fbbf24;"></i> 收藏的工具
+                </div>
+                <div class="favorites-grid">
+                    ${favoriteTools.map(tool => {
+                        const category = toolsData.categories.find(c => c.id === tool.category);
+                        const updatedAt = tool.updatedAt || tool.createdAt || '未知';
+                        return `
+                            <a href="${tool.entry}" class="tool-card favorite" style="--tool-color: ${tool.color}">
+                                <button class="favorite-btn active" onclick="toggleFavorite('${tool.id}', event)" title="取消收藏">
+                                    <i class="fas fa-star"></i>
+                                </button>
+                                <div class="tool-header">
+                                    <div class="tool-icon" style="background: ${tool.color}20; color: ${tool.color};">
+                                        ${tool.icon}
+                                    </div>
+                                    <div class="tool-info">
+                                        <div class="tool-title">${tool.name}</div>
+                                        <div class="tool-category">${category?.icon || ''} ${category?.name || '未分类'}</div>
+                                        <div class="tool-updated"><i class="far fa-clock"></i> ${updatedAt}</div>
+                                    </div>
+                                </div>
+                                <div class="tool-description">${tool.description}</div>
+                                <div class="tool-footer">
+                                    <div class="tool-tags">
+                                        ${tool.tags.slice(0, 3).map(tag => `<span class="tool-tag">${tag}</span>`).join('')}
+                                    </div>
+                                    <div class="tool-meta">
+                                        <i class="fas fa-arrow-right tool-arrow"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function renderTools() {
+            const container = document.getElementById('tools-grid');
+            const filteredTools = filterTools();
+
+            document.getElementById('tools-count-label').textContent = `共 ${filteredTools.length} 个工具`;
+
+            if (filteredTools.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <p>未找到匹配的工具</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filteredTools.map(tool => {
+                const category = toolsData.categories.find(c => c.id === tool.category);
+                const updatedAt = tool.updatedAt || tool.createdAt || '未知';
+                const isFavorite = favorites.includes(tool.id);
+                return `
+                    <a href="${tool.entry}" class="tool-card ${isFavorite ? 'favorite' : ''}" style="--tool-color: ${tool.color}">
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${tool.id}', event)" title="${isFavorite ? '取消收藏' : '收藏'}">
+                            <i class="fas fa-star"></i>
+                        </button>
+                        ${tool.featured ? '<span class="featured-badge">精选</span>' : ''}
+                        <div class="tool-header">
+                            <div class="tool-icon" style="background: ${tool.color}20; color: ${tool.color};">
+                                ${tool.icon}
+                            </div>
+                            <div class="tool-info">
+                                <div class="tool-title">${tool.name}</div>
+                                <div class="tool-category">${category?.icon || ''} ${category?.name || '未分类'}</div>
+                                <div class="tool-updated"><i class="far fa-clock"></i> ${updatedAt}</div>
+                            </div>
+                        </div>
+                        <div class="tool-description">${tool.description}</div>
+                        <div class="tool-footer">
+                            <div class="tool-tags">
+                                ${tool.tags.slice(0, 3).map(tag => `<span class="tool-tag">${tag}</span>`).join('')}
+                            </div>
+                            <div class="tool-meta">
+                                <i class="fas fa-arrow-right tool-arrow"></i>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            }).join('');
+        }
+
+        function formatCount(value) {
+            if (typeof value !== 'number') {
+                return '--';
+            }
+            return value.toLocaleString('zh-CN');
+        }
+
+        function formatPair(pv, uv) {
+            return `${formatCount(pv)}/${formatCount(uv)}`;
+        }
+
+        async function loadHomeStats() {
+            try {
+                const response = await fetch('api/clicks?ids=home');
+                if (!response.ok) {
+                    return;
+                }
+                const data = await response.json();
+                const stats = data.counts?.home;
+                if (!stats) {
+                    return;
+                }
+                document.getElementById('home-day-count').textContent = formatPair(stats.pv?.day, stats.uv?.day);
+                document.getElementById('home-total-count').textContent = formatPair(stats.pv?.total, stats.uv?.total);
+            } catch (error) {
+                console.warn('Failed to load home stats', error);
+            }
+        }
+
+
+        // Theme toggle
+        function initTheme() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            const themeIcon = document.querySelector('#theme-toggle i');
+            themeIcon.className = currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+        }
+
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('justhtmls-theme', currentTheme);
+            initTheme();
+        });
+
+        // Keyboard shortcuts and navigation
+        let selectedToolIndex = -1;
+
+        function highlightTool(index) {
+            const cards = document.querySelectorAll('.tool-card');
+            cards.forEach((card, i) => {
+                card.style.outline = i === index ? `2px solid var(--primary)` : 'none';
+                card.style.outlineOffset = i === index ? '2px' : '0';
+            });
+            selectedToolIndex = index;
+            if (index >= 0 && cards[index]) {
+                cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        function openSelectedTool() {
+            if (selectedToolIndex >= 0) {
+                const cards = document.querySelectorAll('.tool-card');
+                if (cards[selectedToolIndex]) {
+                    cards[selectedToolIndex].click();
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+K or Cmd+K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+                selectedToolIndex = -1;
+                highlightTool(-1);
+            }
+            // Escape to clear search or reset selection
+            if (e.key === 'Escape') {
+                if (document.activeElement === document.getElementById('search-input')) {
+                    document.getElementById('search-input').value = '';
+                    searchQuery = '';
+                    updateURL();
+                    renderTools();
+                    document.getElementById('search-input').blur();
+                }
+                selectedToolIndex = -1;
+                highlightTool(-1);
+            }
+            // Arrow keys for navigation (only when not typing in input)
+            if (!['input', 'textarea'].includes(document.activeElement.tagName.toLowerCase())) {
+                const cards = document.querySelectorAll('.tool-card');
+                if (cards.length > 0) {
+                    if (e.key === 'ArrowDown') {
+                        e.preventDefault();
+                        const nextIndex = selectedToolIndex < cards.length - 1 ? selectedToolIndex + 1 : 0;
+                        highlightTool(nextIndex);
+                    } else if (e.key === 'ArrowUp') {
+                        e.preventDefault();
+                        const prevIndex = selectedToolIndex > 0 ? selectedToolIndex - 1 : cards.length - 1;
+                        highlightTool(prevIndex);
+                    } else if (e.key === 'Enter' && selectedToolIndex >= 0) {
+                        e.preventDefault();
+                        openSelectedTool();
+                    }
+                }
+            }
+        });
+
+        // Search functionality
+        document.getElementById('search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            updateURL();
+            renderTools();
+        });
+
+        document.getElementById('sort-select').addEventListener('change', (e) => {
+            sortOption = e.target.value;
+            updateURL();
+            renderTools();
+        });
+
+        // Initialize
+        loadURLState();
+        initTheme();
+        loadHomeStats();
+        loadTools().then(() => {
+            renderFavorites();
+        });
+
+    </script>
+    <script src="assets/clicks.js" defer></script>
+</body>
+</html>

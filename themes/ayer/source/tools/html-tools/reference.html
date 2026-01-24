@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link rel="icon" href="favicon.svg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>参考文档 - JustHTMLs</title>
+    <link rel="canonical" href="https://www.htmls.dev/reference.html">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .card h3 {
+            color: #667eea;
+            margin: 25px 0 15px 0;
+            font-size: 1.4rem;
+        }
+
+        .card h4 {
+            color: #555;
+            margin: 15px 0 10px 0;
+            font-size: 1.1rem;
+        }
+
+        .card p, .card li {
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .card ul {
+            margin-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 8px;
+        }
+
+        .features {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            min-width: 30px;
+        }
+
+        .feature-content h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .category-card {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            color: white;
+        }
+
+        .category-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .category-card h4 {
+            margin: 0 0 8px 0;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .category-card p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .code-block {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            margin: 10px 10px 10px 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .card {
+                padding: 25px;
+            }
+
+            .categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>参考文档</h1>
+            <p>HTML 工具设计原则与开发指南</p>
+        </div>
+
+        <div class="card">
+            <h2>设计原则</h2>
+
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📄</div>
+                    <div class="feature-content">
+                        <h4>单文件 HTML</h4>
+                        <p>将 HTML、CSS 和 JavaScript 都写在一个文件中，方便复制粘贴和部署，无需构建步骤</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-content">
+                        <h4>避免 React</h4>
+                        <p>使用纯 JavaScript 或 CDN 加载轻量级框架，失败时回退到本地资源</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📦</div>
+                    <div class="feature-content">
+                        <h4>本地依赖</h4>
+                        <p>第三方库放在 assets/vendor 并随仓库分发，适合离线环境</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">💎</div>
+                    <div class="feature-content">
+                        <h4>保持精简</h4>
+                        <p>每个工具控制在几百行代码，便于 LLM 理解和修改，易于维护</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3>功能模式</h3>
+
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-content">
+                        <h4>剪贴板操作</h4>
+                        <p>支持粘贴内容（文本、富文本、图片、文件），一键复制结果到剪贴板</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🔗</div>
+                    <div class="feature-content">
+                        <h4>URL 状态持久化</h4>
+                        <p>将状态保存在 URL 中，方便书签和分享，无需服务器存储</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">💾</div>
+                    <div class="feature-content">
+                        <h4>localStorage 存储</h4>
+                        <p>用于存储较大的状态或敏感信息，数据不离开用户设备</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🌐</div>
+                    <div class="feature-content">
+                        <h4>CORS API 调用</h4>
+                        <p>利用支持 CORS 的公开 API，如 GitHub、各类公开数据接口等</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📁</div>
+                    <div class="feature-content">
+                        <h4>文件处理</h4>
+                        <p>使用 input type="file" 直接读取文件，无需上传到服务器</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">⬇️</div>
+                    <div class="feature-content">
+                        <h4>文件下载</h4>
+                        <p>使用 JavaScript 生成可下载文件，支持多种格式（PNG、JPEG、ICS 等）</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>本项目的实现</h2>
+
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📁</div>
+                    <div class="feature-content">
+                        <h4>标准化目录结构</h4>
+                        <p>每个工具独立文件夹，包含 index.html 和 app.html</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-content">
+                        <h4>索引系统</h4>
+                        <p>使用 index.json 管理工具元数据</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-content">
+                        <h4>搜索和过滤</h4>
+                        <p>前端实现的多维度搜索</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🤝</div>
+                    <div class="feature-content">
+                        <h4>提交流程</h4>
+                        <p>通过 GitHub Issues 提交工具</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">🌐</div>
+                    <div class="feature-content">
+                        <h4>GitHub Pages 部署</h4>
+                        <p>静态托管，无服务器成本</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>工具分类</h2>
+
+            <div class="categories">
+                <div class="category-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="icon">🔄</div>
+                    <h4>格式转换</h4>
+                    <p>7 个工具</p>
+                </div>
+
+                <div class="category-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="icon">👨‍💻</div>
+                    <h4>开发者工具</h4>
+                    <p>6 个工具</p>
+                </div>
+
+                <div class="category-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="icon">📝</div>
+                    <h4>文本处理</h4>
+                    <p>6 个工具</p>
+                </div>
+
+                <div class="category-card" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                    <div class="icon">🖼️</div>
+                    <h4>图片处理</h4>
+                    <p>2 个工具</p>
+                </div>
+
+                <div class="category-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="icon">🧰</div>
+                    <h4>实用工具</h4>
+                    <p>4 个工具</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>开发指南</h2>
+
+            <h3>工具开发流程</h3>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li><strong>需求分析</strong> - 确定工具功能和用户需求</li>
+                <li><strong>原型设计</strong> - 使用 HTML/CSS/JS 快速原型</li>
+                <li><strong>功能实现</strong> - 保持精简，专注核心功能</li>
+                <li><strong>测试验证</strong> - 多浏览器兼容性测试</li>
+                <li><strong>提交审核</strong> - 通过 GitHub Issues 或 PR 提交</li>
+            </ol>
+
+            <h3>工具规范</h3>
+            <p>每个工具必须包含：</p>
+
+            <div class="code-block">
+tools/
+  └── your-tool/
+      ├── index.html    # 工具详情页（介绍页面）
+      └── app.html      # 工具实体页（实际运行的工具）
+            </div>
+
+            <h3>设计原则</h3>
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li>单文件 HTML，内联 CSS/JS</li>
+                <li>不使用 React 或需要构建的技术</li>
+                <li>从本地 assets/vendor 加载第三方库</li>
+                <li>保持精简（建议 500 行以内）</li>
+                <li>数据本地处理，保护隐私</li>
+            </ul>
+
+            <h3>提示词模板</h3>
+            <div class="code-block">
+Build an HTML tool that [描述功能需求].
+No React.
+Use [特定库名] from CDN with local fallback if needed.
+Include [特定功能要求].
+            </div>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <p style="margin-bottom: 20px; color: #666;">查看更多信息</p>
+            <a href="index.html" class="btn">返回首页</a>
+            <a href="https://github.com/justhtmls/html-tools/blob/main/CONTRIBUTING.md" target="_blank" class="btn">贡献指南</a>
+            <a href="https://github.com/justhtmls/html-tools" target="_blank" class="btn btn-secondary">GitHub 仓库</a>
+        </div>
+    </div>
+</body>
+</html>
