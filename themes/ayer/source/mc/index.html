@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>天启|星火</title>
+    <link rel="stylesheet" href="index.css">
     <style>
         /* 全局样式 */
         * {
@@ -32,10 +33,11 @@
             padding: 30px;
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            max-width: 450px;
-            width: 90%;
+            max-width: 750px;
+            width: 95%;
             transition: all 0.3s ease;
         }
         
@@ -74,24 +76,25 @@
             font-weight: 500;
         }
         
-        /* 状态显示 */
-        .status {
-            font-size: 1.5rem;
-            font-weight: 600;
+        /* 状态显示区域 */
+        .status-section {
             margin: 20px 0;
-            padding: 12px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .status-section iframe {
             border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .online {
-            color: #10b981;
-            background-color: rgba(16, 185, 129, 0.1);
-        }
-        
-        .offline {
-            color: #ef4444;
-            background-color: rgba(239, 68, 68, 0.1);
+            border: none;
+            overflow: hidden;
+            min-height: 400px;
+            height: 400px;
         }
         
         /* MOTD区域 */
@@ -170,51 +173,281 @@
         <div class="q-group">
             Q群: <b>203110978</b>
         </div>
-        <div class="status" id="status">正在检查...</div>
-        <div class="motd-section">
-            <div class="motd-title">MOTD</div>
-            <div id="motd"></div>
+        <div class="status-section">
+            <div class="mc-status-container">
+                <div class="mc-status-header">
+                    <div class="mc-status-icon" id="status-icon"></div>
+                    <div class="mc-status-title">服务器状态</div>
+                </div>
+                <div class="mc-status-content">
+                    <div class="mc-status-info">
+                        <div class="mc-status-item">
+                            <span class="mc-status-label">类型:</span>
+                            <span class="mc-status-value" id="status-type">加载中...</span>
+                        </div>
+                        <div class="mc-status-item">
+                            <span class="mc-status-label">状态:</span>
+                            <span class="mc-status-value" id="status-status">加载中...</span>
+                        </div>
+                        <div class="mc-status-item">
+                            <span class="mc-status-label">版本:</span>
+                            <span class="mc-status-value" id="status-version">加载中...</span>
+                        </div>
+                        <div class="mc-status-item">
+                            <span class="mc-status-label">玩家:</span>
+                            <span class="mc-status-value" id="status-players">加载中...</span>
+                        </div>
+                    </div>
+                    <div class="mc-status-motd" id="status-motd">
+                        <div class="mc-status-motd-title">MOTD</div>
+                        <div class="mc-status-motd-content"></div>
+                    </div>
+                    <div class="mc-status-players-list" id="status-players-list">
+                        <div class="mc-status-players-list-title">玩家列表</div>
+                        <div class="mc-status-players-list-content"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script>
         async function checkServerStatus() {
-            const url = 'https://uapis.cn/api/v1/game/minecraft/serverstatus?server=mc.starsfire.top';
+            const apiUrl = 'https://motd.minebbs.com/api/status?ip=mc.starsfire.top&stype=auto';
             try {
-                const response = await fetch(url);
+                const response = await fetch(apiUrl);
                 const data = await response.json();
-                const statusElement = document.getElementById('status');
-                const motdElement = document.getElementById('motd');
                 
-                if (data.code === 200 && data.online) {
-                    statusElement.textContent = `服务器在线`;
-                    statusElement.className = 'status online';
+                // 更新服务器类型
+                document.getElementById('status-type').textContent = data.type;
+                
+                // 更新服务器状态
+                const statusElement = document.getElementById('status-status');
+                statusElement.textContent = data.status === 'online' ? '在线' : '离线';
+                statusElement.className = `mc-status-value status-${data.status}`;
+                
+                // 更新版本信息
+                document.getElementById('status-version').textContent = data.version;
+                
+                // 更新玩家信息
+                document.getElementById('status-players').textContent = `${data.players.online}/${data.players.max}`;
+                
+                // 更新MOTD
+                const motdContent = document.querySelector('.mc-status-motd-content');
+                if (data.motd.extra) {
+                    // 清空现有内容
+                    motdContent.innerHTML = '';
                     
-                    // 显示MOTD
-                    if (data.motd_html) {
-                        motdElement.innerHTML = data.motd_html;
-                    } else if (data.motd_clean) {
-                        motdElement.textContent = data.motd_clean;
+                    // 遍历MOTD内容并创建相应的元素
+                    data.motd.extra.forEach(item => {
+                        if (typeof item === 'string') {
+                            // 处理换行符
+                            if (item === '\n') {
+                                motdContent.appendChild(document.createElement('br'));
+                            } else {
+                                const textNode = document.createTextNode(item);
+                                motdContent.appendChild(textNode);
+                            }
+                        } else if (item.color && item.text) {
+                            // 处理带颜色的文本
+                            const span = document.createElement('span');
+                            span.style.color = item.color;
+                            span.textContent = item.text;
+                            motdContent.appendChild(span);
+                        }
+                    });
+                } else {
+                    motdContent.textContent = data.pureMotd || '无MOTD信息';
+                }
+                
+                // 更新服务器图标
+                const iconElement = document.getElementById('status-icon');
+                if (data.icon) {
+                    iconElement.style.backgroundImage = `url(${data.icon})`;
+                    iconElement.style.display = 'block';
+                } else {
+                    iconElement.style.display = 'none';
+                }
+                
+                // 更新玩家列表
+                const playersListContent = document.querySelector('.mc-status-players-list-content');
+                if (data.players.sample && data.players.sample !== '无') {
+                    // 清空现有内容
+                    playersListContent.innerHTML = '';
+                    
+                    // 检查sample是否为数组
+                    if (Array.isArray(data.players.sample)) {
+                        // 遍历玩家列表并创建元素
+                        data.players.sample.forEach(player => {
+                            const playerItem = document.createElement('div');
+                            playerItem.className = 'mc-status-player-item';
+                            playerItem.textContent = player.name || player;
+                            playersListContent.appendChild(playerItem);
+                        });
                     } else {
-                        motdElement.textContent = '暂无服务器消息';
+                        // 如果不是数组，直接显示
+                        playersListContent.textContent = data.players.sample;
                     }
                 } else {
-                    statusElement.textContent = '服务器离线';
-                    statusElement.className = 'status offline';
-                    motdElement.textContent = '';
+                    playersListContent.textContent = '无';
                 }
+                
             } catch (error) {
                 console.error('Error fetching server status:', error);
-                const statusElement = document.getElementById('status');
-                const motdElement = document.getElementById('motd');
-                statusElement.textContent = '无法获取服务器状态';
-                statusElement.className = 'status offline';
-                motdElement.textContent = '';
+                // 显示错误信息
+                document.getElementById('status-status').textContent = '无法获取状态';
+                document.getElementById('status-status').className = 'mc-status-value status-error';
+                
+                // 清空玩家列表
+                const playersListContent = document.querySelector('.mc-status-players-list-content');
+                playersListContent.textContent = '无';
             }
         }
+        
         // 初始加载时检查服务器状态
         window.onload = checkServerStatus;
         // 每30秒自动更新一次状态
         setInterval(checkServerStatus, 30000);
     </script>
+    <style>
+        /* MC状态容器样式 */
+        .mc-status-container {
+            width: 100%;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .mc-status-header {
+            display: flex;
+            align-items: center;
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+        }
+        
+        .mc-status-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .mc-status-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .mc-status-content {
+            padding: 20px;
+        }
+        
+        .mc-status-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .mc-status-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .mc-status-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        
+        .mc-status-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .status-online {
+            color: #28a745;
+        }
+        
+        .status-offline {
+            color: #dc3545;
+        }
+        
+        .status-error {
+            color: #ffc107;
+        }
+        
+        .mc-status-motd {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+        
+        .mc-status-motd-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .mc-status-motd-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+        }
+        
+        .mc-status-players-list {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .mc-status-players-list-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+        
+        .mc-status-players-list-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #495057;
+        }
+        
+        .mc-status-player-item {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 5px;
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+            font-size: 0.8rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mc-status-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .mc-status-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </body>
 </html>
