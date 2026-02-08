@@ -202,93 +202,48 @@
                         <div class="mc-status-motd-title">MOTD</div>
                         <div class="mc-status-motd-content"></div>
                     </div>
-                    <div class="mc-status-players-list" id="status-players-list">
-                        <div class="mc-status-players-list-title">玩家列表</div>
-                        <div class="mc-status-players-list-content"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
         async function checkServerStatus() {
-            const apiUrl = 'https://motd.minebbs.com/api/status?ip=mc.starsfire.top&stype=auto';
+            const apiUrl = 'https://uapis.cn/api/v1/game/minecraft/serverstatus?server=mc.starsfire.top';
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
                 
-                // 更新服务器类型
-                document.getElementById('status-type').textContent = data.type;
+                // 更新服务器类型（新API无此字段，默认显示Java）
+                document.getElementById('status-type').textContent = 'Java';
                 
                 // 更新服务器状态
                 const statusElement = document.getElementById('status-status');
-                statusElement.textContent = data.status === 'online' ? '在线' : '离线';
-                statusElement.className = `mc-status-value status-${data.status}`;
+                statusElement.textContent = data.online ? '在线' : '离线';
+                statusElement.className = `mc-status-value status-${data.online ? 'online' : 'offline'}`;
                 
                 // 更新版本信息
-                document.getElementById('status-version').textContent = data.version;
+                document.getElementById('status-version').textContent = data.version || '未知版本';
                 
                 // 更新玩家信息
-                document.getElementById('status-players').textContent = `${data.players.online}/${data.players.max}`;
+                document.getElementById('status-players').textContent = `${data.players}/${data.max_players}`;
                 
                 // 更新MOTD
                 const motdContent = document.querySelector('.mc-status-motd-content');
-                if (data.motd.extra) {
-                    // 清空现有内容
-                    motdContent.innerHTML = '';
-                    
-                    // 遍历MOTD内容并创建相应的元素
-                    data.motd.extra.forEach(item => {
-                        if (typeof item === 'string') {
-                            // 处理换行符
-                            if (item === '\n') {
-                                motdContent.appendChild(document.createElement('br'));
-                            } else {
-                                const textNode = document.createTextNode(item);
-                                motdContent.appendChild(textNode);
-                            }
-                        } else if (item.color && item.text) {
-                            // 处理带颜色的文本
-                            const span = document.createElement('span');
-                            span.style.color = item.color;
-                            span.textContent = item.text;
-                            motdContent.appendChild(span);
-                        }
-                    });
+                if (data.motd_html) {
+                    motdContent.innerHTML = data.motd_html;
+                } else if (data.motd_clean) {
+                    motdContent.textContent = data.motd_clean;
                 } else {
-                    motdContent.textContent = data.pureMotd || '无MOTD信息';
+                    motdContent.textContent = '无MOTD信息';
                 }
                 
                 // 更新服务器图标
                 const iconElement = document.getElementById('status-icon');
-                if (data.icon) {
-                    iconElement.style.backgroundImage = `url(${data.icon})`;
+                if (data.favicon_url) {
+                    iconElement.style.backgroundImage = `url(${data.favicon_url})`;
                     iconElement.style.display = 'block';
                 } else {
                     iconElement.style.display = 'none';
-                }
-                
-                // 更新玩家列表
-                const playersListContent = document.querySelector('.mc-status-players-list-content');
-                if (data.players.sample && data.players.sample !== '无') {
-                    // 清空现有内容
-                    playersListContent.innerHTML = '';
-                    
-                    // 检查sample是否为数组
-                    if (Array.isArray(data.players.sample)) {
-                        // 遍历玩家列表并创建元素
-                        data.players.sample.forEach(player => {
-                            const playerItem = document.createElement('div');
-                            playerItem.className = 'mc-status-player-item';
-                            playerItem.textContent = player.name || player;
-                            playersListContent.appendChild(playerItem);
-                        });
-                    } else {
-                        // 如果不是数组，直接显示
-                        playersListContent.textContent = data.players.sample;
-                    }
-                } else {
-                    playersListContent.textContent = '无';
                 }
                 
             } catch (error) {
@@ -296,10 +251,6 @@
                 // 显示错误信息
                 document.getElementById('status-status').textContent = '无法获取状态';
                 document.getElementById('status-status').className = 'mc-status-value status-error';
-                
-                // 清空玩家列表
-                const playersListContent = document.querySelector('.mc-status-players-list-content');
-                playersListContent.textContent = '无';
             }
         }
         
@@ -403,37 +354,6 @@
             font-size: 0.9rem;
             line-height: 1.4;
             white-space: pre-wrap;
-        }
-        
-        .mc-status-players-list {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            margin-top: 20px;
-        }
-        
-        .mc-status-players-list-title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 10px;
-        }
-        
-        .mc-status-players-list-content {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            color: #495057;
-        }
-        
-        .mc-status-player-item {
-            display: inline-block;
-            padding: 5px 10px;
-            margin: 5px;
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            border: 1px solid #dee2e6;
-            font-size: 0.8rem;
         }
         
         /* 响应式设计 */
